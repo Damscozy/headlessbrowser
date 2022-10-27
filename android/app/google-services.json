@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "965956428387",
+    "project_id": "beebzrides",
+    "storage_bucket": "beebzrides.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965956428387:android:3f4926c7996b2e1e9f4e56",
+        "android_client_info": {
+          "package_name": "com.beebzride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965956428387-015ca5rctdfgcqbtosm9mqnbfnj0mpe4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beebzride",
+            "certificate_hash": "9f221b22beb22b838bebecfe4b0c60d691ec8ca3"
+          }
+        },
+        {
+          "client_id": "965956428387-2lug06dcnu1o28nkjar2th1n0vpc037o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beebzride",
+            "certificate_hash": "bec945ba24a80a1b180e1fe8b32e8601a3ace97e"
+          }
+        },
+        {
+          "client_id": "965956428387-u7maju2dods9q1u9dr71op1van2n970g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beebzride",
+            "certificate_hash": "d5175ef5642982c8b97b397cf34f343092d743e0"
+          }
+        },
+        {
+          "client_id": "965956428387-u1nel46maltgmgdv68la8182ca2idij3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlvwh0r0Vot91-6LrIM9RREyATZJUenOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965956428387-u1nel46maltgmgdv68la8182ca2idij3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "965956428387-2n38dumbdhs28b2p9a32c5sh7bacss37.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.beebzride"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
