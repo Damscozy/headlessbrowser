@@ -44,15 +44,15 @@ class _DashboardUserBottomState extends State<DashboardUserBottom> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Hello there!",
-                style: Theme.of(context).textTheme.caption!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+              // Text(
+              //   "Hello there!",
+              //   style: Theme.of(context).textTheme.caption!.copyWith(
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
               Text(
                 "Create a Trip",
                 style: Theme.of(context).textTheme.subtitle1!.copyWith(
