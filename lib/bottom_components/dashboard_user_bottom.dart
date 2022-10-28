@@ -91,7 +91,7 @@ class _DashboardUserBottomState extends State<DashboardUserBottom> {
                         PickUpField(
                           description: 'Select Pick-Up Location',
                           initialValue: "Where from?",
-                          selectedPrediction: controller.pickLocation,
+                          selectedPrediction: geocontroller.pickLocation,
                           label: 'Select Pick-Up Location',
                           fillColor: const Color(0xffEAE8F1),
                           controller: _pickupAddress,
@@ -108,7 +108,7 @@ class _DashboardUserBottomState extends State<DashboardUserBottom> {
                         DropOffField(
                           description: 'Destination',
                           initialValue: "Where to?",
-                          selectedDropPrediction: controller.dropOffLocation,
+                          selectedDropPrediction: geocontroller.dropOffLocation,
                           label: 'Select Destination Address',
                           fillColor: const Color(0xffEAE8F1),
                           controller: _deliveryAddress,
@@ -132,10 +132,10 @@ class _DashboardUserBottomState extends State<DashboardUserBottom> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      if (controller.pickLocation.value == null) {
+                      if (geocontroller.pickLocation.value == null) {
                         Get.snackbar('Error', 'Please select pickuplocation');
                         return;
-                      } else if (controller.dropOffLocation.value == null) {
+                      } else if (geocontroller.dropOffLocation.value == null) {
                         Get.snackbar(
                             'Error', 'Please select drop off location');
                         return;
@@ -145,8 +145,8 @@ class _DashboardUserBottomState extends State<DashboardUserBottom> {
                         () => ResultScreen(
                           pickupAddress: _pickupAddress,
                           deliveryAddress: _deliveryAddress,
-                          selectedPickUpAddress: controller.pickLocation,
-                          selectedDeliveryAddress: controller.dropOffLocation,
+                          selectedPickUpAddress: geocontroller.pickLocation,
+                          selectedDeliveryAddress: geocontroller.dropOffLocation,
                         ),
                         transition: Transition.size,
                       );

@@ -122,7 +122,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         PickUpField(
                           description: 'Select Pick-Up Location',
                           initialValue: "Current Location",
-                          selectedPrediction: controller.pickLocation,
+                          selectedPrediction: geocontroller.pickLocation,
                           label: 'Select Pick-Up Location',
                           fillColor: const Color(0xffEAE8F1),
                           controller: widget.pickupAddress,
@@ -136,7 +136,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         DropOffField(
                           description: 'Destination',
                           initialValue: "Destination ",
-                          selectedDropPrediction: controller.dropOffLocation,
+                          selectedDropPrediction: geocontroller.dropOffLocation,
                           label: 'Select Destination Address',
                           fillColor: const Color(0xffEAE8F1),
                           controller: widget.deliveryAddress,
@@ -226,10 +226,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      if (controller.pickLocation.value == null) {
+                      if (geocontroller.pickLocation.value == null) {
                         Get.snackbar('Error', 'Please select pickuplocation');
                         return;
-                      } else if (controller.dropOffLocation.value == null) {
+                      } else if (geocontroller.dropOffLocation.value == null) {
                         Get.snackbar(
                             'Error', 'Please select drop off location');
                         return;
@@ -239,8 +239,8 @@ class _ResultScreenState extends State<ResultScreen> {
                         () => WebViewPage(
                           pickupAddress: widget.pickupAddress,
                           deliveryAddress: widget.deliveryAddress,
-                          selectedPickUpAddress: controller.pickLocation,
-                          selectedDeliveryAddress: controller.dropOffLocation,
+                          selectedPickUpAddress: geocontroller.pickLocation,
+                          selectedDeliveryAddress: geocontroller.dropOffLocation,
                         ),
                       );
                     },

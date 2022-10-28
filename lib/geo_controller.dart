@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart' as geo;
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
 import 'package:http/http.dart' as http;
 
 import 'config/constants.dart';
@@ -14,7 +15,8 @@ import 'config/constants.dart';
 class GeoController extends GetxController {
   static GeoController get to => Get.find();
   RxBool serviceEnabled = false.obs;
-
+  Rx<AutocompletePrediction?> pickLocation = Rx(null);
+  Rx<AutocompletePrediction?> dropOffLocation = Rx(null);
   Rx<String?> currentAddress = Rx(null);
 
   final Rx<Position?> _currentPosition = Rx(null);
@@ -33,6 +35,16 @@ class GeoController extends GetxController {
   void onReady() {
     super.onReady();
   }
+
+Future generateRequest()async{
+final pickupLatlng=await getLatLngFromAddress(pickLocation.value!.description!);
+final dropoffLatlng=await getLatLngFromAddress(dropOffLocation.value!.description!);
+
+
+
+
+
+}
 
   Future<Position?> determinePosition() async {
     LocationPermission permission;

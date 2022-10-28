@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_place/google_place.dart';
 
 class RequestController extends GetxController {
-  Rx<AutocompletePrediction?> pickLocation = Rx(null);
-  Rx<AutocompletePrediction?> dropOffLocation = Rx(null);
+  // Rx<AutocompletePrediction?> pickLocation = Rx(null);
+  // Rx<AutocompletePrediction?> dropOffLocation = Rx(null);
   RxInt bottomSheetIndex = 0.obs;
   RxString selectedLoadType = 'Agro'.obs;
   RxString selectedContainerType = 'Bulk'.obs;
