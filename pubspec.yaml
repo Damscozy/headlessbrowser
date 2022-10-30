@@ -1,4 +1,4 @@
-name: headlessbrowser
+name: ekcab
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -18,10 +18,11 @@ dependencies:
 
   # Other Packages
   lottie: ^1.1.0
+  web_scraper: ^0.1.4
   google_fonts: ^3.0.1
   flutter_switch: ^0.3.2
   cupertino_icons: ^1.0.2
-  webview_flutter: ^3.0.2
+  webview_flutter: ^3.0.4
   flutter_easyloading: ^3.0.0
   beautiful_soup_dart: ^0.3.0
 
@@ -39,6 +40,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  
 
 flutter:
   uses-material-design: true

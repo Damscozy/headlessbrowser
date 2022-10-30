@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:headlessbrowser/bottom_components/dashboard_user_bottom.dart';
+import 'package:ekcab/bottom_components/dashboard_user_bottom.dart';
 
-import 'controller/home_controller.dart';
-import 'controller/request_controller.dart';
-import 'geo_controller.dart';
+import '../controller/geo_controller.dart';
+import '../controller/home_controller.dart';
+import '../controller/request_controller.dart';
 
 class DashBoardUser extends StatelessWidget {
   final _scaffoldkey = GlobalKey<ScaffoldState>();
@@ -50,18 +50,20 @@ class DashBoardUser extends StatelessWidget {
             // ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Obx(() => IndexedStack(
-                    index: controller.bottomSheetIndex.value,
-                    alignment: Alignment.bottomCenter,
-                    children: const [
-                      DashboardUserBottom(),
-                      // ResultScreen(),
-                      // DeliveryDetails(),
-                      // LoadDetails(),
-                      // PaymentOption(),
-                      // PickupTime()
-                    ],
-                  )),
+              child: Obx(
+                () => IndexedStack(
+                  index: controller.bottomSheetIndex.value,
+                  alignment: Alignment.bottomCenter,
+                  children: const [
+                    DashboardUserBottom(),
+                    // ResultScreen(),
+                    // DeliveryDetails(),
+                    // LoadDetails(),
+                    // PaymentOption(),
+                    // PickupTime()
+                  ],
+                ),
+              ),
             ),
           ],
         ),

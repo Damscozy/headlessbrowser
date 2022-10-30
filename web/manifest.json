@@ -1,6 +1,6 @@
 {
-    "name": "headlessbrowser",
-    "short_name": "headlessbrowser",
+    "name": "ekcab",
+    "short_name": "ekcab",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

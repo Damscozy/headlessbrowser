@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.headlessbrowser">
+    package="com.example.ekcab">
     <uses-permission android:name="android.permission.INTERNET" />
         <queries>
      <!-- If your app opens https URLs -->
@@ -29,9 +29,10 @@
   </intent>
 </queries>
    <application
-        android:label="headlessbrowser"
+        android:label="ekcab"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyBSpuWgsUzRBCDT-i0jTl0onCFCKRjbX6o"/>
         <activity

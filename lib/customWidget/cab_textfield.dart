@@ -1,14 +1,12 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:google_place/google_place.dart';
-import 'package:headlessbrowser/config/constants.dart';
-import 'package:headlessbrowser/geo_controller.dart';
+import 'package:ekcab/config/constants.dart';
+import 'package:ekcab/controller/geo_controller.dart';
 import 'package:lottie/lottie.dart';
 
 class PickUpField extends StatefulWidget {
@@ -95,13 +93,13 @@ class _PickUpFieldState extends State<PickUpField> {
               if (widget.selectedPrediction != null) {
                 widget.selectedPrediction!(suggestion);
               }
-
-              if (kDebugMode) {
-                print(
-                    'Selected PickUp Location ${suggestion.description} and Address: ${geocontroller.currentAddress.value}');
-                print(
-                    'Selected PickUp LatLng ${geocontroller.currentPosition!.latitude} Long${geocontroller.currentPosition!.longitude}');
-              }
+              geocontroller.generatePickUpRequest();
+              // if (kDebugMode) {
+              //   print(
+              //       'Selected PickUp Location ${suggestion.description} and Address: ${geocontroller.currentAddress.value}');
+              //   print(
+              //       'Selected PickUp LatLng ${geocontroller.currentPosition!.latitude} Long${geocontroller.currentPosition!.longitude}');
+              // }
             },
             validator: (value) =>
                 value!.isEmpty ? 'Please select a city' : null,
@@ -195,7 +193,8 @@ class _DropOffFieldState extends State<DropOffField> {
   @override
   void initState() {
     super.initState();
-    geocontroller.getCurrentAddress();
+    // geocontroller.generatePickUpRequest();
+    // geocontroller.generateDroppOffRequest();
   }
 
   @override
@@ -241,9 +240,12 @@ class _DropOffFieldState extends State<DropOffField> {
               if (widget.selectedDropPrediction != null) {
                 widget.selectedDropPrediction!(suggestion);
               }
-              if (kDebugMode) {
-                print('Selected DropOff Location ${suggestion.description}');
-              }
+              geocontroller.generateDroppOffRequest();
+              // if (kDebugMode) {
+              //   print('Selected DropOff Location ${suggestion.description}');
+              //   print(
+              //       'Selected DropOff LatLng ${geocontroller.currentPosition!.latitude} Long${geocontroller.currentPosition!.longitude}');
+              // }
             },
             validator: (value) =>
                 value!.isEmpty ? 'Please select a city' : null,

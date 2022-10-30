@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
-import 'dashboard_user.dart';
-import 'geo_controller.dart';
+import 'controller/geo_controller.dart';
+import 'screens/nav_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       }),
       // home: const HomePage(),
       // home: const WebViewPage(),
-      home: DashBoardUser(),
+      home: const UserNavScreen(),
       // home: const GoogleMapPage(),
     );
   }

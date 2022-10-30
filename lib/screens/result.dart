@@ -1,17 +1,25 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, unnecessary_null_comparison
 
 import 'dart:math';
 
+import 'package:ekcab/config/app_theme.dart';
+import 'package:ekcab/controller/geo_controller.dart';
+import 'package:ekcab/controller/request_controller.dart';
+import 'package:ekcab/customWidget/cab_textfield.dart';
+import 'package:ekcab/model/ridemodel.dart';
+import 'package:ekcab/screens/scrapping.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_place/google_place.dart';
-import 'package:headlessbrowser/config/app_theme.dart';
-import 'package:headlessbrowser/controller/request_controller.dart';
-import 'package:headlessbrowser/customWidget/cab_textfield.dart';
-import 'package:headlessbrowser/geo_controller.dart';
-import 'package:headlessbrowser/uberwebview.dart';
+import 'package:html/dom.dart' as dom;
+import 'package:http/http.dart' as http;
+import 'package:web_scraper/web_scraper.dart';
 
+import 'meruwebview.dart';
+
+// The Taj Mahal Palace, Mumbai, Apollo Bandar, Colaba, Mumbai, Maharashtra, India
 class ResultScreen extends StatefulWidget {
   final TextEditingController? pickupAddress;
   final TextEditingController? deliveryAddress;
@@ -34,8 +42,15 @@ class _ResultScreenState extends State<ResultScreen> {
   final RequestController controller = Get.find();
   final GeoController geocontroller = Get.find();
 
+  bool isLoading = false;
   int selectedIndex = -1;
   bool isSelected = false;
+
+  String baseUrl = 'https://m.uber.com/looking';
+  String baseUrl2 = 'https://book.meru.in/airport';
+
+  List<RideModel> rides = [];
+  List<String> allData = [];
 
   List<String> tripType = [
     'BIKE',
@@ -44,23 +59,16 @@ class _ResultScreenState extends State<ResultScreen> {
     'SUV',
   ];
 
-  List<String> amountList = [
-    '₹10',
-    '₹24',
-    '₹15',
-    '₹18',
-  ];
-
   List<String> rideAmount = [
-    '₹30',
-    '₹58',
-    '₹45',
-    '₹72',
+    '₹312.12',
+    '₹306.30',
+    '₹381.90',
+    '₹392.32',
   ];
 
   List<String> rideTitle = [
     'UberX',
-    'Uber Go',
+    'Uber Go Premier',
     'Uber Go Sedan',
     'Uber Express',
   ];
@@ -68,13 +76,96 @@ class _ResultScreenState extends State<ResultScreen> {
   List<String> rideDesc = [
     'Affordable rides, all to yourself',
     'Affordable compact rides',
+    'Affordable car rides',
     'Affordable Sedan rides',
   ];
+
+  final webScraper = WebScraper('https://book.meru.in');
+  List<Map<String, dynamic>>? productNames;
+  late List<Map<String, dynamic>> productDescriptions;
+
+  Future<void> getData() async {
+    rides.clear();
+    isLoading = true;
+    setState(() {});
+    final html = await getWebsiteData();
+    if (html != null) rides = ScraperService.run(html);
+    isLoading = false;
+    setState(() {});
+  }
+
+  Future getWebsiteData() async {
+    try {
+      // final response = await http.get(Uri.parse(baseUrl));
+      // if (kDebugMode) {
+      //   print('BODY RESPONSE ${response.body}');
+      // }
+      var url = Uri.parse('https://book.meru.inf');
+      var response = await http.get(url);
+      // BeautifulSoup bs = BeautifulSoup(response.body);
+      // final allHeaderName =
+      //     bs.findAll('div', attrs: {'class': 'cabs_brand_list'});
+      // // bs.findAll('div', attrs: {'class': 'show_cab_list_current'});
+      // // if (kDebugMode) {
+      // //   // print('the header url: $url');
+      // //   print('the bs header: $bs');
+      // //   print('the header res2: ${response.body}');
+      // //   print('the header: ${bs.text}');
+      // // }
+      // for (var element in allHeaderName) {
+      //   if (kDebugMode) {
+      //     print('the header element: ${element.text}');
+      //   }
+      // }
+      if (response.statusCode != null) {
+        dom.Document html = dom.Document.html(response.body);
+
+        final content = html.getElementsByClassName('show_cab_list_current');
+        allData = content
+            .map((e) => e.getElementsByTagName('span')[0].innerHtml.trim())
+            .toList();
+
+        // final allData = html
+        //     .querySelectorAll('brand_names')
+        //     .map((element) => element.innerHtml.trim())
+        //     .toList();
+        if (kDebugMode) {
+          print('URL RESPONSE $allData');
+        }
+        return allData;
+      } else {
+        Get.snackbar('Error', 'Unable to load url');
+      }
+    } catch (e) {
+//
+    }
+    return null;
+  }
+
+  void fetchProducts() async {
+    // Loads web page and downloads into local state of library
+    if (await webScraper.loadWebPage('/airport')) {
+      setState(() {
+        // getElement takes the address of html tag/element and attributes you want to scrap from website
+        // it will return the attributes in the same order passed
+        productNames =
+            webScraper.getElement('div.show_cab_list_current', ['img']);
+        productDescriptions = webScraper.getElement(
+            'div.thumbnail > div.caption > p.description', ['class']);
+        if (kDebugMode) {
+          print('Product Name $productNames');
+        }
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    geocontroller.getCurrentAddress();
+    getWebsiteData();
+    // fetchProducts();
+    // getData();
+    // geocontroller.getCurrentAddress();
   }
 
   @override
@@ -151,66 +242,21 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                 ],
               ),
-              // const SizedBox(height: 10),
-              // Text(widget.selectedPickUpAddress.value!.description!),
-              // Text(geocontroller.currentPosition!.latitude.toString()),
-
-              const SizedBox(height: 10),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    // final random = Random();
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 30),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {});
-                          setState(() {
-                            selectedIndex = index;
-                          });
-                          selectedIndex = index;
-                          setState(() {});
-                        },
-                        child: Vehicle(
-                          title: tripType[index],
-                          amount: amountList[index],
-                          color: selectedIndex == index
-                              ? Colors.deepPurple
-                              : Colors.white,
-                          index: index,
-                          selectedIndex: selectedIndex,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     vehicle('BIKE', '₹10'),
-              //     vehicle('AUTO', '₹24'),
-              //     vehicle('CAR', '₹15'),
-              //     vehicle('SUV', '₹18'),
-              //   ],
-              // ),
               const SizedBox(height: 30),
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
-                  itemCount: 5,
+                  // itemCount: rides.length < 3 ? rides.length : 1,
+                  itemCount: 4,
                   itemBuilder: (context, index) {
                     final random = Random();
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: RideWidget(
                         assetImage: 'assets/images/uber.png',
+                        // rideTitle: rides[index].rideTitle,
+                        // amount: rides[index].rideAmount,
                         rideTitle: rideTitle[random.nextInt(rideTitle.length)],
                         description: rideDesc[random.nextInt(rideDesc.length)],
                         amount: rideAmount[random.nextInt(rideAmount.length)],
@@ -225,7 +271,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       if (geocontroller.pickLocation.value == null) {
                         Get.snackbar('Error', 'Please select pickuplocation');
                         return;
@@ -234,15 +280,34 @@ class _ResultScreenState extends State<ResultScreen> {
                             'Error', 'Please select drop off location');
                         return;
                       }
+                      // await getWebsiteData();
+                      // fetchProducts();
                       // controller.bottomSheetIndex++;
+
                       Get.to(
-                        () => WebViewPage(
+                        () => MeruWebViewPage(
                           pickupAddress: widget.pickupAddress,
                           deliveryAddress: widget.deliveryAddress,
-                          selectedPickUpAddress: geocontroller.pickLocation,
-                          selectedDeliveryAddress: geocontroller.dropOffLocation,
+                          selectedPickUpAddress: geocontroller
+                              .pickLocation.value!.description!
+                              .toString(),
+                          selectedDeliveryAddress: geocontroller
+                              .dropOffLocation.value!.description!
+                              .toString(),
                         ),
                       );
+                      // Get.to(
+                      //   () => UberWebViewPage(
+                      //     pickupAddress: widget.pickupAddress,
+                      //     deliveryAddress: widget.deliveryAddress,
+                      //     selectedPickUpAddress: geocontroller
+                      //         .pickLocation.value!.description!
+                      //         .toString(),
+                      //     selectedDeliveryAddress: geocontroller
+                      //         .dropOffLocation.value!.description!
+                      //         .toString(),
+                      //   ),
+                      // );
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(

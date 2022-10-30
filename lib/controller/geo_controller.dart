@@ -10,7 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:http/http.dart' as http;
 
-import 'config/constants.dart';
+import '../config/constants.dart';
 
 class GeoController extends GetxController {
   static GeoController get to => Get.find();
@@ -18,6 +18,8 @@ class GeoController extends GetxController {
   Rx<AutocompletePrediction?> pickLocation = Rx(null);
   Rx<AutocompletePrediction?> dropOffLocation = Rx(null);
   Rx<String?> currentAddress = Rx(null);
+  Rx<String?> pickLatLng = Rx(null);
+  Rx<String?> dropLatLng = Rx(null);
 
   final Rx<Position?> _currentPosition = Rx(null);
   Position? get currentPosition => _currentPosition.value;
@@ -36,15 +38,27 @@ class GeoController extends GetxController {
     super.onReady();
   }
 
-Future generateRequest()async{
-final pickupLatlng=await getLatLngFromAddress(pickLocation.value!.description!);
-final dropoffLatlng=await getLatLngFromAddress(dropOffLocation.value!.description!);
+  Future generatePickUpRequest() async {
+    final pickupLatlng =
+        await getLatLngFromAddress(pickLocation.value!.description!);
+    // final dropoffLatlng =
+    //     await getLatLngFromAddress(dropOffLocation.value!.description!);
+    if (kDebugMode) {
+      print('Pick Up LongLat $pickupLatlng');
+      // print('Drop Off LongLat$dropoffLatlng');
+    }
+  }
 
-
-
-
-
-}
+  Future generateDroppOffRequest() async {
+    // final pickupLatlng =
+    //     await getLatLngFromAddress(pickLocation.value!.description!);
+    final dropoffLatlng =
+        await getLatLngFromAddress(dropOffLocation.value!.description!);
+    if (kDebugMode) {
+      // print('Pick Up LongLat$pickupLatlng');
+      print('Drop Off LongLat $dropoffLatlng');
+    }
+  }
 
   Future<Position?> determinePosition() async {
     LocationPermission permission;
@@ -116,6 +130,8 @@ final dropoffLatlng=await getLatLngFromAddress(dropOffLocation.value!.descriptio
         final value = json['results'][0];
         final latlng = LatLng(value['geometry']['location']['lat'],
             value['geometry']['location']['lng']);
+        pickLatLng(latlng.toString());
+        dropLatLng(latlng.toString());
 
         if (kDebugMode) {
           print("location route result ${response.body}");
@@ -127,7 +143,6 @@ final dropoffLatlng=await getLatLngFromAddress(dropOffLocation.value!.descriptio
         print(ex);
       }
     }
-
     return null;
   }
 }

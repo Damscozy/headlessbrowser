@@ -1,5 +1,5 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:headlessbrowser/geo_controller.dart';
+import 'package:ekcab/controller/geo_controller.dart';
 
 class HomeController extends GetxController with StateMixin {
   @override

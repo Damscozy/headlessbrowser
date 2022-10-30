@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_place/google_place.dart';
 
 class RequestController extends GetxController {
   // Rx<AutocompletePrediction?> pickLocation = Rx(null);
